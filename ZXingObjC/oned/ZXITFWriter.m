@@ -28,7 +28,7 @@ static const int ZX_ITF_N = 1; // Pixel width of a narrow line
  * Patterns of Wide / Narrow lines to indicate each digit
  */
 const int ZX_ITF_WRITER_PATTERNS_LEN = 10;
-const int ZX_ITF_WRITER_PATTERNS[ZX_ITF_WRITER_PATTERNS_LEN][5] = {
+const int ZX_ITF_WRITER_PATTERNS[10][5] = {
   {ZX_ITF_N,  ZX_ITF_N,  ZX_ITF_W3, ZX_ITF_W3, ZX_ITF_N},  // 0
   {ZX_ITF_W3, ZX_ITF_N,  ZX_ITF_N,  ZX_ITF_N,  ZX_ITF_W3}, // 1
   {ZX_ITF_N,  ZX_ITF_W3, ZX_ITF_N,  ZX_ITF_N,  ZX_ITF_W3}, // 2
@@ -71,14 +71,13 @@ const int ZX_ITF_WRITER_PATTERNS[ZX_ITF_WRITER_PATTERNS_LEN][5] = {
   for (int i = 0; i < length; i += 2) {
     int one = [[contents substringWithRange:NSMakeRange(i, 1)] intValue];
     int two = [[contents substringWithRange:NSMakeRange(i + 1, 1)] intValue];
-    const int encodingLen = 10;
-    int encoding[encodingLen];
-    memset(encoding, 0, encodingLen * sizeof(int));
+    int encoding[10];
+    memset(encoding, 0, 10 * sizeof(int));
     for (int j = 0; j < 5; j++) {
       encoding[2 * j] = ZX_ITF_WRITER_PATTERNS[one][j];
       encoding[2 * j + 1] = ZX_ITF_WRITER_PATTERNS[two][j];
     }
-    pos += [super appendPattern:result pos:pos pattern:encoding patternLen:encodingLen startColor:YES];
+    pos += [super appendPattern:result pos:pos pattern:encoding patternLen:10 startColor:YES];
   }
   [self appendPattern:result pos:pos pattern:ZX_ITF_WRITER_END_PATTERN patternLen:sizeof(ZX_ITF_WRITER_END_PATTERN)/sizeof(int) startColor:YES];
 

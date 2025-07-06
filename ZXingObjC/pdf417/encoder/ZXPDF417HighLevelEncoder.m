@@ -109,10 +109,9 @@ const int8_t ZX_PDF417_TEXT_PUNCTUATION_RAW[] = {
   10, 45, 46, 36, 47, 34, 124, 42, 40, 41, 63, 123, 125, 39, 0};
 
 const int ZX_PDF417_MIXED_TABLE_LEN = 128;
-unichar ZX_PDF417_MIXED_TABLE[ZX_PDF417_MIXED_TABLE_LEN];
-
 const int ZX_PDF417_PUNCTUATION_LEN = 128;
-unichar ZX_PDF417_PUNCTUATION[ZX_PDF417_PUNCTUATION_LEN];
+unichar ZX_PDF417_MIXED_TABLE[128];
+unichar ZX_PDF417_PUNCTUATION[128];
 
 const NSStringEncoding ZX_PDF417_DEFAULT_ENCODING = NSISOLatin1StringEncoding;
 
@@ -122,7 +121,7 @@ const NSStringEncoding ZX_PDF417_DEFAULT_ENCODING = NSISOLatin1StringEncoding;
   if ([self class] != [ZXPDF417HighLevelEncoder class]) return;
 
   //Construct inverse lookups
-  for (int i = 0; i < ZX_PDF417_MIXED_TABLE_LEN; i++) {
+  for (int i = 0; i < 128; i++) {
     ZX_PDF417_MIXED_TABLE[i] = 0xFF;
   }
   for (int8_t i = 0; i < sizeof(ZX_PDF417_TEXT_MIXED_RAW) / sizeof(int8_t); i++) {
@@ -131,7 +130,7 @@ const NSStringEncoding ZX_PDF417_DEFAULT_ENCODING = NSISOLatin1StringEncoding;
       ZX_PDF417_MIXED_TABLE[b] = i;
     }
   }
-  for (int i = 0; i < ZX_PDF417_PUNCTUATION_LEN; i++) {
+  for (int i = 0; i < 128; i++) {
     ZX_PDF417_PUNCTUATION[i] = 0xFF;
   }
   for (int8_t i = 0; i < sizeof(ZX_PDF417_TEXT_PUNCTUATION_RAW) / sizeof(int8_t); i++) {
@@ -363,9 +362,8 @@ const NSStringEncoding ZX_PDF417_DEFAULT_ENCODING = NSISOLatin1StringEncoding;
   int idx = startpos;
   // Encode sixpacks
   if (count >= 6) {
-    const int charsLen = 5;
-    unichar chars[charsLen];
-    memset(chars, 0, charsLen * sizeof(unichar));
+    unichar chars[5];
+    memset(chars, 0, 5 * sizeof(unichar));
     while ((startpos + count - idx) >= 6) {
       long long t = 0;
       for (int i = 0; i < 6; i++) {
@@ -376,7 +374,7 @@ const NSStringEncoding ZX_PDF417_DEFAULT_ENCODING = NSISOLatin1StringEncoding;
         chars[i] = (unichar) (t % 900);
         t /= 900;
       }
-      for (int i = charsLen - 1; i >= 0; i--) {
+      for (int i = 5 - 1; i >= 0; i--) {
         [sb appendFormat:@"%C", chars[i]];
       }
       idx += 6;

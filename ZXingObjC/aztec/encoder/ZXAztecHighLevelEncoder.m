@@ -74,7 +74,7 @@ const int ZX_AZTEC_LATCH_TABLE[][5] = {
 // in that mode.  An entry of 0 indicates no mapping exists.
 const int ZX_AZTEC_CHAR_MAP_HEIGHT = 5;
 const int ZX_AZTEC_CHAR_MAP_WIDTH = 256;
-static int ZX_AZTEC_CHAR_MAP[ZX_AZTEC_CHAR_MAP_HEIGHT][ZX_AZTEC_CHAR_MAP_WIDTH];
+static int ZX_AZTEC_CHAR_MAP[5][256];
 
 // A map showing the available shift codes.  (The shifts to BINARY are not
 // shown
@@ -91,7 +91,7 @@ int ZX_AZTEC_SHIFT_TABLE[ZX_AZTEC_SHIFT_TABLE_SIZE][ZX_AZTEC_SHIFT_TABLE_SIZE];
 + (void)load {
   ZX_AZTEC_MODE_NAMES = @[@"UPPER", @"LOWER", @"DIGIT", @"MIXED", @"PUNCT"];
 
-  memset(ZX_AZTEC_CHAR_MAP, 0, ZX_AZTEC_CHAR_MAP_HEIGHT * ZX_AZTEC_CHAR_MAP_WIDTH * sizeof(int));
+  memset(ZX_AZTEC_CHAR_MAP, 0, 5 * 256 * sizeof(int));
   ZX_AZTEC_CHAR_MAP[ZX_AZTEC_MODE_UPPER][' '] = 1;
   for (int c = 'A'; c <= 'Z'; c++) {
     ZX_AZTEC_CHAR_MAP[ZX_AZTEC_MODE_UPPER][c] = c - 'A' + 2;

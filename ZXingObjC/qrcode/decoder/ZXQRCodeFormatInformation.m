@@ -23,7 +23,7 @@ const int ZX_FORMAT_INFO_MASK_QR = 0x5412;
  * See ISO 18004:2006, Annex C, Table C.1
  */
 const int ZX_FORMAT_INFO_DECODE_LOOKUP_LEN = 32;
-const int ZX_FORMAT_INFO_DECODE_LOOKUP[ZX_FORMAT_INFO_DECODE_LOOKUP_LEN][2] = {
+const int ZX_FORMAT_INFO_DECODE_LOOKUP[32][2] = {
   {0x5412, 0x00},
   {0x5125, 0x01},
   {0x5E7C, 0x02},
@@ -98,7 +98,7 @@ const int ZX_BITS_SET_IN_HALF_BYTE[] = {0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3
   int bestDifference = INT_MAX;
   int bestFormatInfo = 0;
 
-  for (int i = 0; i < ZX_FORMAT_INFO_DECODE_LOOKUP_LEN; i++) {
+  for (int i = 0; i < 32; i++) {
     int targetInfo = ZX_FORMAT_INFO_DECODE_LOOKUP[i][0];
     if (targetInfo == maskedFormatInfo1 || targetInfo == maskedFormatInfo2) {
       return [[ZXQRCodeFormatInformation alloc] initWithFormatInfo:ZX_FORMAT_INFO_DECODE_LOOKUP[i][1]];
